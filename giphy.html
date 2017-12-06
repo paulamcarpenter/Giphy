@@ -7,20 +7,6 @@
 </head>
 
 <body>
-<!--   <button data-animal="cat">Cats</button>
-  <button data-animal="dog">Dogs</button>
-  <button data-animal="bird">Birds</button>
-  <button data-animal="horse">Horses</button>
-  <button data-animal="elephant">Elephants</button>
-  <button data-animal="snake">Snakes</button>
-  <button data-animal="bug">Bugs</button>
-  <button data-animal="fish">Fish</button>
-  <button data-animal="whale">Whales</button>
-  <button data-animal="wolf">Wolves</button>
-  <button data-animal="deer">Deer</button>
-  <button data-animal="bear">Bears</button> -->
-  <div id="gifs-appear-here">
-  </div>
 
     <!-- New Animals will get put here on page-->
     <div id="animals-view"></div>
@@ -33,22 +19,22 @@
       <input id="add-animal" type="submit" value="Add an Animal!">
     </form>
 
+    <div id="gifs-appear-here">
+    </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
 
     function renderButtons() {
 
-      // trying to add new animals on line 137 but not sure if I have to have array of animals listed here to add the new animals to the array or if its best to have the data-animal buttons on lines 10-21?  Not working!  
       var animals = ["cat", "dog", "bird", "horse", "elephant", "snake", "bug", "fish", "whale", "wolf", "deer", "bear"];
-
-      
+   
       $("#animals-view").empty();
 
       // Looping through the array of animals
       for (var i = 0; i < animals.length; i++) {
 
-        // Then dynamicaly generating buttons for each movie in the array.
+        // Then dynamicaly generating buttons for each animal in the array.
         // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
         var a = $("<button>");
         // Adding a class
@@ -62,7 +48,7 @@
       }
     }
 
-
+    renderButtons();
 
     // Adding click event listen listener to all buttons
     //$("button").on("click", function() {
@@ -73,7 +59,7 @@
 
       // Constructing a queryURL using the animal name
       var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        animal + "&api_key=aJ5igGdxjiExykYeGvYKHWanbGSowmua&limit=5";
+        animal + "&api_key=aJ5igGdxjiExykYeGvYKHWanbGSowmua&limit=10&Rating=PG";
 
       $("#gifs-appear-here").empty();
 
@@ -96,28 +82,31 @@
             // Creating and storing a div tag
             var animalDiv = $("<div>");
 
+             // Creating a paragraph tag with the result item's rating
+            var p = $("<p>").text("Rating: " + results[i].rating);  
+
             var animatedSrc = results[i].images.fixed_height.url;
             var stillSrc = results[i].images.fixed_height_still.url;
-
-            // Creating a paragraph tag with the result item's rating
-            var p = $("<p>").text("Rating: " + results[i].rating);
-
+           
             // Creating and storing an image tag
             var animalImage = $("<img>");
+
             // Setting the src attribute of the image to a property pulled off the result item
             animalImage.attr("src", results[i].images.fixed_height.url);
 
+
             $("<img>", {
-              "src": results[i].images.fixed_height.url,
+              "src": results[i].images.fixed_height_still.url,
               class: "animate",
               "data-state": "animate",
               "data-still": stillSrc,
               "data-animate": animatedSrc
-
+              
             }).appendTo(animalDiv);
 
             // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
             $("#gifs-appear-here").prepend(animalDiv);
+
           }
         });
     });
@@ -135,12 +124,8 @@
       }
     })
 
-    // trying to add new animals here with this button but not working!  See line 42 too
-    // function renderNewButtons(newAnimal) {
-    //   console.log('renderNewButtons');
-
-    
-      $("#add-animal").click(function(event) {
+    // trying to add new animals here with this button but not working!  
+        $("#add-animal").click(function(event) {
         event.preventDefault();
         
         console.log('event', event);
@@ -151,23 +136,15 @@
         var animalButton = $("<button>");
         // Adding a class
         animalButton.addClass("animals");
-        // Adding a data-attribute with a value of the movie at index i
+        // Adding a data-attribute with a value of the animal at index i
         animalButton.attr("data-animal", animal);
-        // Providing the button's text with a value of the movie at index i
+        // Providing the button's text with a value of the animal at index i
         animalButton.text(animal);
         // Adding the button to the HTML
         $("#animals-view").append(animalButton);
         
-        // $("<button>", {
-        //  class: "animals",
-        //  "data-name": animal,
-        //  text: animal
-        // }).appendTo("#animals");
       });
       //console.log($("#add-animal"));
-    //}
-
-    renderButtons();
 
   </script>
 </body>
