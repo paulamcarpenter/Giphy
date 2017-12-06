@@ -51,7 +51,6 @@
     renderButtons();
 
     // Adding click event listen listener to all buttons
-    //$("button").on("click", function() {
     $("#animals-view").on("click", ".animals", function() {
       // Grabbing and storing the data-animal property value from the button
       console.log("$(this)", $(this));
@@ -82,14 +81,16 @@
             // Creating and storing a div tag
             var animalDiv = $("<div>");
 
-             // Creating a paragraph tag with the result item's rating
-            var p = $("<p>").text("Rating: " + results[i].rating);  
-
             var animatedSrc = results[i].images.fixed_height.url;
             var stillSrc = results[i].images.fixed_height_still.url;
-           
+            var rating = results[i].rating;
+
             // Creating and storing an image tag
             var animalImage = $("<img>");
+
+            // Creating a paragraph tag with the result item's rating
+            var p = $("<p>").text("Rating: " + rating);  
+            p.appendTo(animalDiv);
 
             // Setting the src attribute of the image to a property pulled off the result item
             animalImage.attr("src", results[i].images.fixed_height.url);
@@ -124,7 +125,7 @@
       }
     })
 
-    // trying to add new animals here with this button but not working!  
+    // Adding new animals here with this!  
         $("#add-animal").click(function(event) {
         event.preventDefault();
         
